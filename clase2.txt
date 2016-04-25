@@ -1,0 +1,48 @@
+Para evitar los problema de sincronización, se tomó una medida drástica al implementar el intérprete de Python: el GIL, o Global Interpreter Lock. 
+La idea es básicamente que cuando a un thread le toca ejecutarse, obtiene un lock a nivel de intérprete que no permite la ejecución simultanea de otros threads.
+Bien, así ya no hay que preocuparse por la sincronización, pero… mal por otras muchas razones. Entre ellas, que eso hace que el intérprete corra en una única CPU,
+ aunque el sistema sea multi-CPU (y ahora todos lo son, ¡diantre!), y que esa contención (los threads se quedan ahí esperando unos a otros durante un lapso de
+ tiempo dado) hace que el rendimiento de la aplicación caiga con cada nuevo thread añadido. Una gran explicación sobre por qué pasa eso aquí.
+
+En resumen, en Python trata de evitarse el uso de threads en cualquier aplicación mediana o grande. Y bien que se hace. 
+
+Multiprocessing
+
+Bien, en Python usar threads es una castaña, en gran parte porque su uso evita el aprovechamiento de las múltiples CPUs del sistema. 
+Que faena, con la pasta que han valido esos cores de más. Nada, siempre hay alguien listo con soluciones para este tipo de problemas. 
+En el caso de Python esa solución (al menos en parte) es el módulo de multiprocessing.
+
+
+----------------------------
+
+multiprocessing es un paquete que permite crear nuevos procesos utilizando un API similar a la del módulo threading. 
+Debido a que utiliza subprocesos en lugar de hilos (threads), permite llevar a cabo varias operaciones concurrentes sin las limitaciones del Global Interpreter Lock.
+Corre en sistemas Unix y Windows.
+
+---------------------------
+
+El GIL de CPython evita que múltiples threads ejecuten bytecode simultáneamente. Este bloqueo es necesario porque la gestión de memoria en CPython no es segura
+ para múltiples hilos. Véase el artículo en ingles GlobalInterpreterLock. El usuario puede suponer que las diversas tareas se ejecutan al mismo tiempo, 
+gracias a la ilusión que se produce cuando el procesador alterna la ejecución de cada una de ellas rápidamente. Por ende, la simultaneidad en procesadores
+ de un único núcleo no es real, tanto para hilos como para procesos.
+
+Para procesadores de múltiples núcleos, hago las siguientes recomendaciones. Los hilos son una buena alternativa para lograr concurrencia en tareas de entrada
+ y salida (por ejemplo, lectura y escritura de archivos en disco), caso único en donde la simultaneidad es real (véase Buscador multiplataforma de archivos iguales). 
+Sin embargo, pueden ser útiles también para evitar bloqueos simples (por más que no haya simultaneidad real), por ejemplo, para separar operaciones pesadas del
+ bucle principal de una aplicación gráfica.
+
+Otras implementaciones de Python como Jython o IronPython carecen de GIL, por lo que pueden explotar al máximo los beneficios de la programación multi-hilo.
+ Sackless Python permite ejecutar grandes cantidades de “microthreads”, “tasklets” o “hilos livianos”
+
+---------------------------
+
+Programación declarativa: Está basado en describir el problema declarando propiedades y reglas que deben cumplirse, en lugar de instrucciones.
+Hay lenguajes para la programación funcional, la programación lógica, o la combinación lógico-funcional. Unos de los primeros lenguajes funcionales fueron Lisp y Prolog.
+
+Programación funcional: basada en la definición los predicados y es de corte más matemático, está representado por Scheme (una variante de Lisp) o Haskell.
+Programación lógica: basado en la definición de relaciones lógicas, está representado por Prolog.
+Programación con restricciones: Similar a la lógica usando ecuaciones. Casi todos los lenguajes son variantes del Prolog.
+Programación multiparadigma: es el uso de dos o más paradigmas dentro de un programa. El lenguaje Lisp se considera multiparadigma.
+
+---------------------------------
+

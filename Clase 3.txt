@@ -1,0 +1,26 @@
+Integrar Python con otros Lenguajes: https://wiki.python.org/moin/IntegratingPythonWithOtherLanguages
+
+------------------------------------------------------------------------
+
+Usar libreria PyLog: 
+
+La encontramos en ---->  http://cdsoft.fr/pylog/index.html
+
+----------------------------------------------------------------------
+
+Lips, CLPython: https://www.quicklisp.org/beta/
+
+Python vs Lips : http://norvig.com/python-lisp.html
+
+------------------------------------------------------------------------
+
+Realizar un ejemplo de recursividad en cualquier lenguaje...
+
+----------------------------------------------------------------------
+
+Probar Django en python
+
+------------------------------------------------------------
+
+Que es Json y Axaj....
+
